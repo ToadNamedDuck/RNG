@@ -1,0 +1,23 @@
+{
+    "firstNameFrontFragments":
+    [
+        {
+            "fragment": "Ar",
+            "race": "Human",
+            "syllables": 1
+        },
+        {
+            "fragment": "Bul",
+            "race": "Human",
+            "syllables": 1
+        }
+    ],
+    "firstNameMiddleFragments":
+    [
+        {
+            "fragment": "win",
+            "race": "Human",
+            "syllables": 1
+        }
+    ]
+}
