@@ -10,6 +10,11 @@
             "fragment": "Bul",
             "race": "Human",
             "syllables": 1
+        },
+        {
+            "fragment": "Dun",
+            "race": "Dwarf",
+            "syllables": 1
         }
     ],
     "firstNameMiddleFragments":
@@ -17,6 +22,11 @@
         {
             "fragment": "win",
             "race": "Human",
+            "syllables": 1
+        },
+        {
+            "fragment": "tol",
+            "race": "Dwarf",
             "syllables": 1
         }
     ]

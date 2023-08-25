@@ -15,53 +15,77 @@ function _raceNameGrabber(index) {
     return races[index];
 }
 
-export async function SelectOptions(){
-    const rl = readline.createInterface({ input, output });
+function _inputCheck(input) {
+
+    if (!Number.isNaN(parseInt(input))) {   //If we parse int on input, and it is NOT NaN, then it is a number, and we return true;
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
+export async function SelectOptions() {
     let index;
+    let inputIsValid = false;
 
     console.log("Here is a list of races for which you can generate a name for.");
-    console.table(races)
-    await rl.question("Please enter the index of the race you would like to generate names for.").then((input) => {
-        index=parseInt(input);
-        console.log(_raceNameGrabber(index))
-    })
-    .then(() => rl.close())
+    console.table(races);
+
+    while (true) {
+        const rl = readline.createInterface({ input, output });
+        await rl.question("Please enter the index of the race you would like to generate names for.\n").then((input) => {
+            inputIsValid = _inputCheck(input);
+            if (inputIsValid) {
+                index = parseInt(input);
+                const race = _raceNameGrabber(index);
+                if (race !== undefined) {
+                    console.log("You selected: " + race + "\n");
+                }
+                else {
+                    console.log(`No race corresponds to input: ${input}\n`)
+                    inputIsValid = false;
+                }
+            }
+            else {
+                console.log("This is not a valid number! Enter an integer.\n")
+            }
+        })
+            .then(() => rl.close())
+
+        if (inputIsValid) {
+            break
+        }
+    }
 
     return index;
 }
 
-function _inputCheck(input){
-
-        if(!Number.isNaN(parseInt(input))){   //If we parse int on input, and it is NOT NaN, then it is a number, and we return true;
-            return true;
-        }
-        else{
-            return false;
-        }
-    }
-
-export async function SelectMaxSyllables(){
+export async function SelectMaxSyllables() {
     let max;
     let enteredValidNumber = false;
 
-    while(true){
+    while (true) {
         const rl = readline.createInterface({ input, output });
-        await rl.question("Please input the MAXIMUM NUMBER of syllables for your desired name.")
-        .then((input) => {
-            enteredValidNumber = _inputCheck(input)
-                if(enteredValidNumber){
+        await rl.question("Please input the MAXIMUM NUMBER of syllables for your desired name. Minimum 1.\n")
+            .then((input) => {
+                enteredValidNumber = _inputCheck(input)
+                if (enteredValidNumber) {
                     max = parseInt(input);
                 }
-                else{
-                    console.log("This is not a valid number! Enter an integer.")
+                else {
+                    console.log("This is not a valid number! Enter an integer.\n")
                 }
 
-        })
-        .then(() => rl.close())
-        if(max !== undefined){
+            })
+            .then(() => rl.close())
+        if (max !== undefined) {
             break;
         }
     }
 
+    if (max <= 0) {
+        max = 1;
+    }
     return max;
 }
