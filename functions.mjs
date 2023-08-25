@@ -89,3 +89,33 @@ export async function SelectMaxSyllables() {
     }
     return max;
 }
+
+export async function NumberOfNames(){
+    let max;
+    let enteredValidNumber;
+
+    while(true){
+        const rl = readline.createInterface({ input, output });
+        await rl.question("Please input the desired number of names to randomly generate.\n")
+        .then((input) => {
+            enteredValidNumber = _inputCheck(input);
+            if(enteredValidNumber){
+                max = parseInt(input)
+            }
+            else{
+                console.log("This is not a valid number! Enter an integer.\n")
+            }
+        })
+        .then(() => rl.close())
+
+        if(max !== undefined){
+            break;
+        }
+    }
+
+    if(max <= 0){
+        max = 1
+    }
+
+    return max;
+}
