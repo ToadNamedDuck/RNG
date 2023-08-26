@@ -1,10 +1,8 @@
 import * as readline from 'node:readline/promises';  // This uses the promise-based APIs for Node's native readline
 import { stdin as input, stdout as output } from 'node:process';
+import names from "./name-fragments.json" assert {type: "json"}
 
-const races = [
-    "Human",
-    "Dwarf"
-]
+const races = names.races;
 
 
 //We want to have the user select options for generating the names in the future, but for now
@@ -127,7 +125,6 @@ export function GenerateNames(preferredRaceIndex, maxSyllables, numberOfNames, n
     let names = [];//Initialize an empty array
 
     for(let i = 0; i < numberOfNames;){
-        console.log()
         //We need to intialize some sort of randomizer
         //Lets store the objects we grab from the json file into a temporary array to access the syllable count of the objects.
         let firstFragmentNotFound = true; // used for loop

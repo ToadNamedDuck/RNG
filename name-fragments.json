@@ -1,4 +1,8 @@
 {
+    "races": [
+        "Human",
+        "Dwarf"
+    ],
     "firstNameFrontFragments":
     [
         {
@@ -13,6 +17,11 @@
         },
         {
             "fragment": "Dun",
+            "race": "Dwarf",
+            "syllables": 1
+        },
+        {
+            "fragment": "Bar",
             "race": "Dwarf",
             "syllables": 1
         }
@@ -33,6 +42,16 @@
             "fragment": "tol",
             "race": "Dwarf",
             "syllables": 1
+        },
+        {
+            "fragment": "wiz",
+            "race": "Dwarf",
+            "syllables": 1
+        },
+        {
+            "fragment": "dragon",
+            "race": "Human",
+            "syllables": 2
         }
     ]
 }
