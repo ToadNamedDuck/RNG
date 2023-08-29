@@ -116,6 +116,34 @@ export async function NumberOfNames(){
     return max;
 }
 
+export async function GoAgain(numberOfNames, raceIndex){
+    let response;
+    while(true){
+        const rl = readline.createInterface({ input, output });
+        await rl.question(`Would you like to generate ${numberOfNames} more ${_raceNameGrabber(raceIndex)} names?\n`)
+        .then((input) => {
+            if(input.toLowerCase() === "y"){
+                response = true;
+            }
+            if(input.toLowerCase() === "n"){
+                response =  false;
+            }
+            else{
+                console.log("Please enter 'y' or 'n'\n")
+            }
+        })
+        .then(() => rl.close())
+        if(response === true){
+            return true;
+        }
+        if(response === false){
+            console.log("Goodbye!")
+            return false;
+        }
+    }
+    
+}
+
 //We need to be able to put the names into a table to display them.
 //We also want to honor the user's requests for the values they entered
 //Max number of names will be the length of the array we output, and we'll use it in our loop.

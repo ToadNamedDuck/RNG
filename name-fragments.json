@@ -52,6 +52,11 @@
             "fragment": "dragon",
             "race": "Human",
             "syllables": 2
+        },
+        {
+            "fragment": "bur",
+            "race": "Dwarf",
+            "syllables": 1
         }
     ]
 }
