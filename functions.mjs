@@ -1,6 +1,7 @@
 import * as readline from 'node:readline/promises';  // This uses the promise-based APIs for Node's native readline
 import { stdin as input, stdout as output } from 'node:process';
 import names from "./name-fragments.json" assert {type: "json"}
+import fs from "node:fs/promises";
 
 const races = names.races;
 
@@ -20,6 +21,34 @@ function _inputCheck(input) {
     }
     else {
         return false;
+    }
+}
+
+export async function AskWhatToDo() {
+    while(true){
+        const rl = readline.createInterface({input, output});
+        let inputIsValid;
+        let useCase;
+        let options = ["Modify Data", "Use the Program", "Exit"]
+        console.table(options);
+        await rl.question("Type the corresponding index for what you would like this time around.\n")
+        .then((input) => {
+            inputIsValid = _inputCheck(input)
+            if(inputIsValid){
+                let selectedOption = options[parseInt(input)]
+                if(selectedOption !== undefined){
+                    useCase = selectedOption;
+                }
+            }
+            else{
+                console.log("Please select a valid option.\n")
+            }
+        })
+        .then(() => rl.close())
+
+        if(useCase !== undefined){
+            return useCase;
+        }
     }
 }
 
@@ -120,7 +149,7 @@ export async function GoAgain(numberOfNames, raceIndex){
     let response;
     while(true){
         const rl = readline.createInterface({ input, output });
-        await rl.question(`Would you like to generate ${numberOfNames} more ${_raceNameGrabber(raceIndex)} names?\n`)
+        await rl.question(`Would you like to generate ${numberOfNames} more ${_raceNameGrabber(raceIndex)} names? Y/N\n`)
         .then((input) => {
             if(input.toLowerCase() === "y"){
                 response = true;
