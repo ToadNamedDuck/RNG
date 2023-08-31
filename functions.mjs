@@ -227,3 +227,44 @@ export function GenerateNames(preferredRaceIndex, maxSyllables, numberOfNames, n
     console.table(names);
     return names;
 }
+
+export async function ModifyData(){
+    const options = ["Add new race", "Delete race", "Add name fragments", "Go Back"];
+    let selectedValidOption = false;
+    let selectedOption;
+    while(!selectedValidOption){
+        console.table(options)
+        const rl = readline.createInterface({ input, output });
+        await rl.question("Select an option.").then((input) => {
+            const inputIsValid = _inputCheck(input);
+            if(inputIsValid){
+                selectedOption = options[parseInt(input)]
+                if(selectedOption === undefined){
+                    console.log("Please select an option that exists.\n")
+                }
+                else{
+                    selectedValidOption = true;
+                }
+            }
+            else{
+                console.log("Please enter the number that corresponds to the option you wish to select.\n")
+            }
+        })
+        .then(() => rl.close())
+    }
+    switch(selectedOption){
+        case "Add new race": {
+
+        }
+        case "Delete race": {
+
+        }
+        case "Add name fragments":{
+
+        }
+        case "Go Back": {
+            break;
+        }
+    }
+
+}

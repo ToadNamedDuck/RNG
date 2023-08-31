@@ -1,5 +1,5 @@
 import names from "./name-fragments.json" assert {type: "json"}
-import { AskWhatToDo, GenerateNames, GoAgain, NumberOfNames, SelectMaxSyllables, SelectOptions } from "./functions.mjs";
+import { AskWhatToDo, GenerateNames, GoAgain, ModifyData, NumberOfNames, SelectMaxSyllables, SelectOptions } from "./functions.mjs";
 
 async function main() {
     let preferredRaceVar;
@@ -29,7 +29,7 @@ async function main() {
                 break;
             }
             case 'Modify Data': {
-                console.log("This is soon to be implemented.")
+                await ModifyData();
                 break;
             }
             case 'Exit': {
