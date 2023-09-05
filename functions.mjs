@@ -294,6 +294,9 @@ async function _addRace() {
         await rl.question("Please enter the name of the new race you would like to add to the program.\n")
         .then((response) => raceName = response)
         .then(() => console.log(raceName + " will be added to the database."))
+        .then(async() => await rl.question(`Please enter a prefix that the program can use to generate names for ${raceName}\n`)
+        .then((input => prefix = input))
+        .then(() => console.log(`${prefix} will be used as a prefix to generate ${raceName} names.`)))
         .then(() => rl.close())
     })
 }
