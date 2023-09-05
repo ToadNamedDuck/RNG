@@ -231,7 +231,7 @@ export async function GenerateNames(preferredRaceIndex, maxSyllables, numberOfNa
 }
 
 export async function ModifyData() {
-    const options = ["Add new race", "Delete race", "Add name fragments", "Go Back"];
+    const options = ["Add new race", "Delete race", "Add name fragments", "Delete name fragments", "Go Back"];
     let selectedValidOption = false;
     let selectedOption;
     while (!selectedValidOption) {
@@ -257,6 +257,7 @@ export async function ModifyData() {
     switch (selectedOption) {
         case "Add new race": {
             console.log("Adding new race\n")
+            await _addRace();
             break;
         }
         case "Delete race": {
@@ -267,6 +268,10 @@ export async function ModifyData() {
             console.log("Adding name fragments for selected race\n")
             break;
         }
+        case "Delete name fragments": {
+            console.log("Deleting name fragments, please hold.")
+            break;
+        }
         case "Go Back": {
             break;
         }
@@ -274,6 +279,13 @@ export async function ModifyData() {
 
 }
 
-async function _addRace(jsonFile) {
-
+async function _addRace() {
+    let file;
+    await readFile("./name-fragments.json", "utf8")
+    .then((doc) => file = JSON.parse(doc))
+    .then(() => {
+        const rl = readline.createInterface({ input, output });
+        console.log(file)
+    })
+    .then(() => rl.close())
 }
