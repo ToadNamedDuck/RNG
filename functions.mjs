@@ -237,7 +237,7 @@ export async function ModifyData() {
     while (!selectedValidOption) {
         console.table(options)
         const rl = readline.createInterface({ input, output });
-        await rl.question("Select an option.").then((input) => {
+        await rl.question("Select an option.\n").then((input) => {
             const inputIsValid = _inputCheck(input);
             if (inputIsValid) {
                 selectedOption = options[parseInt(input)]
@@ -269,7 +269,7 @@ export async function ModifyData() {
             break;
         }
         case "Delete name fragments": {
-            console.log("Deleting name fragments, please hold.")
+            console.log("Deleting name fragments, please hold.\n")
             break;
         }
         case "Go Back": {
@@ -281,11 +281,19 @@ export async function ModifyData() {
 
 async function _addRace() {
     let file;
+    let raceName;
+    let prefix;
+    let prefixSyllables;
+    let suffix;
+    let suffixSyllables;
+
     await readFile("./name-fragments.json", "utf8")
     .then((doc) => file = JSON.parse(doc))
-    .then(() => {
+    .then(async () => {
         const rl = readline.createInterface({ input, output });
-        console.log(file)
+        await rl.question("Please enter the name of the new race you would like to add to the program.\n")
+        .then((response) => raceName = response)
+        .then(() => console.log(raceName + " will be added to the database."))
+        .then(() => rl.close())
     })
-    .then(() => rl.close())
 }
