@@ -301,4 +301,26 @@ async function _addRace() {
         .then((input) => suffix = input)
         .then(() => console.log(`${suffix} will be used as a suffix to generate ${raceName} names. A potential name generation will be ${prefix}${suffix}`)))
         .then(() => rl.close())})
+    .then(async () => {
+        let enteredValidPrefixSyllablesCount = false;
+        while(!enteredValidPrefixSyllablesCount){
+            const rl = readline.createInterface({ input, output });
+            await rl.question(`Please enter the amount of syllables for the prefix "${prefix}."\n`)
+            .then((input) => {
+                const enteredValidNumber = _inputCheck(input)
+                if(enteredValidNumber){
+                    prefixSyllables = parseInt(input)
+                    if( prefixSyllables <= 0 ){
+                        prefixSyllables = 1;
+                    }
+                    enteredValidPrefixSyllablesCount = true;
+                }
+                else{
+                    console.log("Please make sure you enter a valid integer. Values below 0 will default to 1.\n")
+                }
+            })
+            .then(() => rl.close())
+        }
+    })
+
 }
