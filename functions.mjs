@@ -343,4 +343,19 @@ async function _addRace() {
             .then(() => rl.close())
         }
     })
+    .then(async () => {
+        const prefixObj = {fragment: prefix, race: raceName, syllables: prefixSyllables}
+        const suffixObject = {fragment: suffix, race: raceName, syllables: suffixSyllables}
+        file.races.push(raceName)
+        file.firstNameFrontFragments.push(prefixObj)
+        file.firstNameMiddleFragments.push(suffixObject)
+        await fs.writeFile("./name-fragments.json", JSON.stringify(file, null, 2), (err) => {
+            if(err){
+                console.log(err)
+            }
+            else{
+                console.log("File written successfully.")
+            }
+        })
+    })
 }

@@ -1,62 +1,71 @@
 {
-    "races": [
-        "Human",
-        "Dwarf"
-    ],
-    "firstNameFrontFragments":
-    [
-        {
-            "fragment": "Ar",
-            "race": "Human",
-            "syllables": 1
-        },
-        {
-            "fragment": "Bul",
-            "race": "Human",
-            "syllables": 1
-        },
-        {
-            "fragment": "Dun",
-            "race": "Dwarf",
-            "syllables": 1
-        },
-        {
-            "fragment": "Bar",
-            "race": "Dwarf",
-            "syllables": 1
-        }
-    ],
-    "firstNameMiddleFragments":
-    [
-        {
-            "fragment": "win",
-            "race": "Human",
-            "syllables": 1
-        },
-        {
-            "fragment": "thur",
-            "race": "Human",
-            "syllables": 1
-        },
-        {
-            "fragment": "tol",
-            "race": "Dwarf",
-            "syllables": 1
-        },
-        {
-            "fragment": "wiz",
-            "race": "Dwarf",
-            "syllables": 1
-        },
-        {
-            "fragment": "dragon",
-            "race": "Human",
-            "syllables": 2
-        },
-        {
-            "fragment": "bur",
-            "race": "Dwarf",
-            "syllables": 1
-        }
-    ]
+  "races": [
+    "Human",
+    "Dwarf",
+    "Night Elf"
+  ],
+  "firstNameFrontFragments": [
+    {
+      "fragment": "Ar",
+      "race": "Human",
+      "syllables": 1
+    },
+    {
+      "fragment": "Bul",
+      "race": "Human",
+      "syllables": 1
+    },
+    {
+      "fragment": "Dun",
+      "race": "Dwarf",
+      "syllables": 1
+    },
+    {
+      "fragment": "Bar",
+      "race": "Dwarf",
+      "syllables": 1
+    },
+    {
+      "fragment": "Mal",
+      "race": "Night Elf",
+      "syllables": 1
+    }
+  ],
+  "firstNameMiddleFragments": [
+    {
+      "fragment": "win",
+      "race": "Human",
+      "syllables": 1
+    },
+    {
+      "fragment": "thur",
+      "race": "Human",
+      "syllables": 1
+    },
+    {
+      "fragment": "tol",
+      "race": "Dwarf",
+      "syllables": 1
+    },
+    {
+      "fragment": "wiz",
+      "race": "Dwarf",
+      "syllables": 1
+    },
+    {
+      "fragment": "dragon",
+      "race": "Human",
+      "syllables": 2
+    },
+    {
+      "fragment": "bur",
+      "race": "Dwarf",
+      "syllables": 1
+    },
+    {
+      "fragment": "furion",
+      "race": "Night Elf",
+      "syllables": 3
+    }
+  ]
 }
