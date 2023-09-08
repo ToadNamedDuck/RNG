@@ -322,5 +322,25 @@ async function _addRace() {
             .then(() => rl.close())
         }
     })
-
+    .then(async() => {
+        let enteredValidSuffixSyllables = false;
+        while(!enteredValidSuffixSyllables){
+            const rl = readline.createInterface({input, output});
+            await rl.question(`Please enter the amount of syllables for the suffix "${suffix}."\n`)
+            .then((input) =>{
+                const enteredValidNumber = _inputCheck(input)
+                if(enteredValidNumber){
+                    suffixSyllables = parseInt(input)
+                    if(suffixSyllables <= 0){
+                        suffixSyllables = 1
+                    }
+                    enteredValidSuffixSyllables = true
+                }
+                else{
+                    console.log("Please make sure you enter a valid integer. Values below 0 will default to 1.\n")
+                }
+            })
+            .then(() => rl.close())
+        }
+    })
 }
