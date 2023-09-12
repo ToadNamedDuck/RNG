@@ -416,7 +416,31 @@ async function _deleteRace(){
         }
     })
     .then(async() => {
-        console.log(confirmed)
-        //CODE FOR DELETE HERE IF CONFIRMED
+        if(!confirmed){
+            console.log("Returning to menu.")
+        }
+        if(confirmed){
+            file.races.pop(chosenRace)
+            file.firstNameFrontFragments.map(frag => {
+                if(frag.race === chosenRace){
+                    file.firstNameFrontFragments.pop(frag)
+                }
+            })
+            file.firstNameMiddleFragments.map(frag => {
+                if(frag.race === chosenRace){
+                    file.firstNameMiddleFragments.pop(frag)
+                }
+            })
+
+            await fs.writeFile("./name-fragments.json", JSON.stringify(file, null, 2), (err) => {
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log("File written successfully.")
+                }
+            })
+            .then("Heading back to menu!")
+        }
     })
 }
