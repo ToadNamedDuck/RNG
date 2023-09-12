@@ -262,6 +262,7 @@ export async function ModifyData() {
         }
         case "Delete race": {
             console.log("Deleting race and associated names from database\n")
+            await _deleteRace();
             break;
         }
         case "Add name fragments": {
@@ -357,5 +358,40 @@ async function _addRace() {
                 console.log("File written successfully.")
             }
         })
+    })
+}
+
+async function _deleteRace(){
+    let file;
+    let chosenRace;
+    await readFile("./name-fragments.json", "utf8")
+    .then((doc) => file = JSON.parse(doc))
+    .then(() => console.table(file.races))
+    .then(async() => {
+        let selectedValidRace = false;
+        while(!selectedValidRace){
+            const rl = readline.createInterface({input, output});
+            await rl.question("Type the index of the race you would like to delete.\n")
+                .then(async(input) => {
+                    let enteredNumber = _inputCheck(input)
+                    if(enteredNumber){
+                        chosenRace = await _raceNameGrabber(parseInt(input))
+                        .then((raceName) => {
+                            if(raceName !== undefined){
+                                chosenRace = raceName
+                                console.log(`You selected "${chosenRace}" for deletion. Are you sure?`)
+                                selectedValidRace = true;
+                            }
+                            else{
+                                console.log("Please choose a race that exists in the table.")
+                            }
+                        })
+                    }
+                    else{
+                        console.log("Please enter the NUMBER corresponding to the race you wish to delete.")
+                    }
+                })
+            .then(() => rl.close())
+        }
     })
 }
