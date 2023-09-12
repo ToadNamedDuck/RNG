@@ -364,6 +364,7 @@ async function _addRace() {
 async function _deleteRace(){
     let file;
     let chosenRace;
+    let confirmed;
     await readFile("./name-fragments.json", "utf8")
     .then((doc) => file = JSON.parse(doc))
     .then(() => console.table(file.races))
@@ -375,23 +376,47 @@ async function _deleteRace(){
                 .then(async(input) => {
                     let enteredNumber = _inputCheck(input)
                     if(enteredNumber){
-                        chosenRace = await _raceNameGrabber(parseInt(input))
+                        await _raceNameGrabber(parseInt(input))
                         .then((raceName) => {
                             if(raceName !== undefined){
                                 chosenRace = raceName
-                                console.log(`You selected "${chosenRace}" for deletion. Are you sure?`)
+                                console.log(`You selected "${chosenRace}" for deletion.\n`)
                                 selectedValidRace = true;
                             }
                             else{
-                                console.log("Please choose a race that exists in the table.")
+                                console.log("Please choose a race that exists in the table.\n")
                             }
                         })
                     }
                     else{
-                        console.log("Please enter the NUMBER corresponding to the race you wish to delete.")
+                        console.log("Please enter the NUMBER corresponding to the race you wish to delete.\n")
                     }
                 })
+                .then(() => rl.close())
+        }
+    })
+    .then(async() => {
+        let enteredYesOrNo = false;
+        while(!enteredYesOrNo){
+            const rl = readline.createInterface({input, output})
+            await rl.question(`Are you sure you wish to delete ${chosenRace} and ALL associated name fragments? Y/N\n`)
+            .then((input) => {
+                if(input.toLowerCase() === "n"){
+                    console.log(`${chosenRace} and associated names will NOT be deleted, goodbye.\n`)
+                    confirmed = false;
+                    enteredYesOrNo = true;
+                }
+                if(input.toLowerCase() === "y"){
+                    console.log(`${chosenRace} will be soon deleted from the database.\n`)
+                    confirmed = true;
+                    enteredYesOrNo = true;
+                }
+            })
             .then(() => rl.close())
         }
+    })
+    .then(async() => {
+        console.log(confirmed)
+        //CODE FOR DELETE HERE IF CONFIRMED
     })
 }
