@@ -444,3 +444,7 @@ async function _deleteRace(){
         }
     })
 }
+
+export async function _addNameFragment(){
+    //does nothing yet
+}
