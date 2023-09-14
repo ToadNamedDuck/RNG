@@ -267,6 +267,7 @@ export async function ModifyData() {
         }
         case "Add name fragments": {
             console.log("Adding name fragments for selected race\n")
+            await _addNameFragment();
             break;
         }
         case "Delete name fragments": {
@@ -446,5 +447,25 @@ async function _deleteRace(){
 }
 
 export async function _addNameFragment(){
-    //does nothing yet
+    let file;
+    await readFile("./name-fragments.json", "utf8")
+    .then((contents) => file = JSON.parse(contents))
+    .then(async() => {
+        let enteredValidNumber = false;
+        while(!enteredValidNumber){
+            const rl = readline.createInterface({input, output})
+            console.table(file.races)
+            await rl.question(`Please select a race to add a name fragment for by typing the associated index.\n`)
+            .then((input) => {
+                if(_inputCheck(input) === true){
+                    console.log(true)
+                    enteredValidNumber = true
+                }
+                else{
+                    console.log(false)
+                }
+            })
+            .then(() => rl.close())
+        }
+    })
 }
