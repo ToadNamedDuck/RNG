@@ -448,6 +448,7 @@ async function _deleteRace(){
 
 export async function _addNameFragment(){
     let file;
+    let race;
     await readFile("./name-fragments.json", "utf8")
     .then((contents) => file = JSON.parse(contents))
     .then(async() => {
@@ -458,11 +459,18 @@ export async function _addNameFragment(){
             await rl.question(`Please select a race to add a name fragment for by typing the associated index.\n`)
             .then((input) => {
                 if(_inputCheck(input) === true){
-                    console.log(true)
-                    enteredValidNumber = true
+                    let selectedRace = file.races[parseInt(input)]
+                    if(selectedRace !== undefined){
+                        race = selectedRace;
+                        console.log(`You selected to add a name fragment for the "${race}" race.\n`)
+                        enteredValidNumber = true;
+                    }
+                    else{
+                        console.log("Please make sure you type a number that corresponds to one of the races above.\n")
+                    }
                 }
                 else{
-                    console.log(false)
+                    console.log("Please make sure you've entered a valid integer.\n")
                 }
             })
             .then(() => rl.close())
