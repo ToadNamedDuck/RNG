@@ -446,9 +446,10 @@ async function _deleteRace(){
     })
 }
 
-export async function _addNameFragment(){
+async function _addNameFragment(){
     let file;
     let race;
+    let selectedNamePiece;
     await readFile("./name-fragments.json", "utf8")
     .then((contents) => file = JSON.parse(contents))
     .then(async() => {
@@ -475,5 +476,72 @@ export async function _addNameFragment(){
             })
             .then(() => rl.close())
         }
+    })
+    .then(async() => {
+        const choices = ["Prefix", "Suffix"]
+        let selectedValidOption = false;
+        while(!selectedValidOption){
+            const rl = readline.createInterface({input, output})
+            console.table(choices);
+            await rl.question("Please enter the index of the option you wish to select.\n")
+                .then((input) => {
+                    if(_inputCheck(input)){
+                        selectedNamePiece = choices[parseInt(input)]
+                        if(selectedNamePiece !== undefined){
+                            console.log(`You selected: "${selectedNamePiece}"`)
+                            selectedValidOption = true;
+                        }
+                        else{
+                            console.log("Please select an option that exists in the table.\n")
+                        }
+                    }
+                    else{
+                        console.log("Please make you you enter an integer.\n")
+                    }
+                })
+            .then(() => rl.close())
+        }
+        
+    })
+    .then(async() => {
+        let fragment;
+        let fragmentObject;
+        let syllablesCount;
+        const rl = readline.createInterface({input, output});
+        await rl.question(`Please enter the name fragment you want as a ${selectedNamePiece} for ${race}.\n`)
+        .then((input) => fragment = input)
+        .then(async() => {
+            await rl.question(`How many syllables are in "${fragment}"? Type only an integer.\nBad values will default to 1.\n`)
+                .then((input) => {
+                    if(_inputCheck(input)){
+                        syllablesCount = parseInt(input)
+                    }
+                    else{
+                        syllablesCount = 1;
+                    }
+                })
+                .then(() => rl.close())
+        })
+        .then(async() => {
+            fragmentObject = {fragment: fragment, race: race, syllables: syllablesCount};
+            switch(selectedNamePiece){
+                case "Prefix": {
+                    file.firstNameFrontFragments.push(fragmentObject)
+                    break;
+                }
+                case "Suffix": {
+                    file.firstNameMiddleFragments.push(fragmentObject)
+                    break;
+                }
+            }
+            await fs.writeFile("./name-fragments.json", JSON.stringify(file, null, 2), (err) => {
+                if(err){
+                    console.log(err)
+                }
+                else{
+                    console.log("File written successfully.")
+                }
+            })
+        })
     })
 }
