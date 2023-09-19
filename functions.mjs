@@ -134,7 +134,7 @@ export async function NumberOfNames() {
                     console.log("This is not a valid number! Enter an integer.\n")
                 }
             })
-            .then(() => {rl.close();rl.removeAllListeners()})
+            .then(() => { rl.close(); rl.removeAllListeners() })
         if (max !== undefined) {
             break;
         }
@@ -287,267 +287,304 @@ async function _addRace() {
     let suffixSyllables;
 
     await readFile("./name-fragments.json", "utf8")
-    .then((doc) => file = JSON.parse(doc))
-    .then(async () => {
-        const rl = readline.createInterface({ input, output });
-        await rl.question("Please enter the name of the new race you would like to add to the program.\n")
-        .then((response) => raceName = response)
-        .then(() => console.log(raceName + " will be added to the database."))
-        .then(async() => await rl.question(`Please enter a prefix that the program can use to generate names for ${raceName}.\n`)
-        .then((input => prefix = input))
-        .then(() => console.log(`${prefix} will be used as a prefix to generate ${raceName} names.`)))
-        .then(async() => await rl.question(`Please enter a suffix that the program can use to generate names for ${raceName}.\n`)
-        .then((input) => suffix = input)
-        .then(() => console.log(`${suffix} will be used as a suffix to generate ${raceName} names. A potential name generation will be ${prefix}${suffix}`)))
-        .then(() => rl.close())})
-    .then(async () => {
-        let enteredValidPrefixSyllablesCount = false;
-        while(!enteredValidPrefixSyllablesCount){
+        .then((doc) => file = JSON.parse(doc))
+        .then(async () => {
             const rl = readline.createInterface({ input, output });
-            await rl.question(`Please enter the amount of syllables for the prefix "${prefix}."\n`)
-            .then((input) => {
-                const enteredValidNumber = _inputCheck(input)
-                if(enteredValidNumber){
-                    prefixSyllables = parseInt(input)
-                    if( prefixSyllables <= 0 ){
-                        prefixSyllables = 1;
-                    }
-                    enteredValidPrefixSyllablesCount = true;
-                }
-                else{
-                    console.log("Please make sure you enter a valid integer. Values below 0 will default to 1.\n")
-                }
-            })
-            .then(() => rl.close())
-        }
-    })
-    .then(async() => {
-        let enteredValidSuffixSyllables = false;
-        while(!enteredValidSuffixSyllables){
-            const rl = readline.createInterface({input, output});
-            await rl.question(`Please enter the amount of syllables for the suffix "${suffix}."\n`)
-            .then((input) =>{
-                const enteredValidNumber = _inputCheck(input)
-                if(enteredValidNumber){
-                    suffixSyllables = parseInt(input)
-                    if(suffixSyllables <= 0){
-                        suffixSyllables = 1
-                    }
-                    enteredValidSuffixSyllables = true
-                }
-                else{
-                    console.log("Please make sure you enter a valid integer. Values below 0 will default to 1.\n")
-                }
-            })
-            .then(() => rl.close())
-        }
-    })
-    .then(async () => {
-        const prefixObj = {fragment: prefix, race: raceName, syllables: prefixSyllables}
-        const suffixObject = {fragment: suffix, race: raceName, syllables: suffixSyllables}
-        file.races.push(raceName)
-        file.firstNameFrontFragments.push(prefixObj)
-        file.firstNameMiddleFragments.push(suffixObject)
-        await fs.writeFile("./name-fragments.json", JSON.stringify(file, null, 2), (err) => {
-            if(err){
-                console.log(err)
-            }
-            else{
-                console.log("File written successfully.")
+            await rl.question("Please enter the name of the new race you would like to add to the program.\n")
+                .then((response) => raceName = response)
+                .then(() => console.log(raceName + " will be added to the database."))
+                .then(async () => await rl.question(`Please enter a prefix that the program can use to generate names for ${raceName}.\n`)
+                    .then((input => prefix = input))
+                    .then(() => console.log(`${prefix} will be used as a prefix to generate ${raceName} names.`)))
+                .then(async () => await rl.question(`Please enter a suffix that the program can use to generate names for ${raceName}.\n`)
+                    .then((input) => suffix = input)
+                    .then(() => console.log(`${suffix} will be used as a suffix to generate ${raceName} names. A potential name generation will be ${prefix}${suffix}`)))
+                .then(() => rl.close())
+        })
+        .then(async () => {
+            let enteredValidPrefixSyllablesCount = false;
+            while (!enteredValidPrefixSyllablesCount) {
+                const rl = readline.createInterface({ input, output });
+                await rl.question(`Please enter the amount of syllables for the prefix "${prefix}."\n`)
+                    .then((input) => {
+                        const enteredValidNumber = _inputCheck(input)
+                        if (enteredValidNumber) {
+                            prefixSyllables = parseInt(input)
+                            if (prefixSyllables <= 0) {
+                                prefixSyllables = 1;
+                            }
+                            enteredValidPrefixSyllablesCount = true;
+                        }
+                        else {
+                            console.log("Please make sure you enter a valid integer. Values below 0 will default to 1.\n")
+                        }
+                    })
+                    .then(() => rl.close())
             }
         })
-    })
+        .then(async () => {
+            let enteredValidSuffixSyllables = false;
+            while (!enteredValidSuffixSyllables) {
+                const rl = readline.createInterface({ input, output });
+                await rl.question(`Please enter the amount of syllables for the suffix "${suffix}."\n`)
+                    .then((input) => {
+                        const enteredValidNumber = _inputCheck(input)
+                        if (enteredValidNumber) {
+                            suffixSyllables = parseInt(input)
+                            if (suffixSyllables <= 0) {
+                                suffixSyllables = 1
+                            }
+                            enteredValidSuffixSyllables = true
+                        }
+                        else {
+                            console.log("Please make sure you enter a valid integer. Values below 0 will default to 1.\n")
+                        }
+                    })
+                    .then(() => rl.close())
+            }
+        })
+        .then(async () => {
+            const prefixObj = { fragment: prefix, race: raceName, syllables: prefixSyllables }
+            const suffixObject = { fragment: suffix, race: raceName, syllables: suffixSyllables }
+            file.races.push(raceName)
+            file.firstNameFrontFragments.push(prefixObj)
+            file.firstNameMiddleFragments.push(suffixObject)
+            await fs.writeFile("./name-fragments.json", JSON.stringify(file, null, 2), (err) => {
+                if (err) {
+                    console.log(err)
+                }
+                else {
+                    console.log("File written successfully.")
+                }
+            })
+        })
 }
 
-async function _deleteRace(){
+async function _deleteRace() {
     let file;
     let chosenRace;
     let confirmed;
     await readFile("./name-fragments.json", "utf8")
-    .then((doc) => file = JSON.parse(doc))
-    .then(() => console.table(file.races))
-    .then(async() => {
-        let selectedValidRace = false;
-        while(!selectedValidRace){
-            const rl = readline.createInterface({input, output});
-            await rl.question("Type the index of the race you would like to delete.\n")
-                .then(async(input) => {
-                    let enteredNumber = _inputCheck(input)
-                    if(enteredNumber){
-                        await _raceNameGrabber(parseInt(input))
-                        .then((raceName) => {
-                            if(raceName !== undefined){
-                                chosenRace = raceName
-                                console.log(`You selected "${chosenRace}" for deletion.\n`)
-                                selectedValidRace = true;
-                            }
-                            else{
-                                console.log("Please choose a race that exists in the table.\n")
-                            }
-                        })
-                    }
-                    else{
-                        console.log("Please enter the NUMBER corresponding to the race you wish to delete.\n")
+        .then((doc) => file = JSON.parse(doc))
+        .then(() => console.table(file.races))
+        .then(async () => {
+            let selectedValidRace = false;
+            while (!selectedValidRace) {
+                const rl = readline.createInterface({ input, output });
+                await rl.question("Type the index of the race you would like to delete.\n")
+                    .then(async (input) => {
+                        let enteredNumber = _inputCheck(input)
+                        if (enteredNumber) {
+                            await _raceNameGrabber(parseInt(input))
+                                .then((raceName) => {
+                                    if (raceName !== undefined) {
+                                        chosenRace = raceName
+                                        console.log(`You selected "${chosenRace}" for deletion.\n`)
+                                        selectedValidRace = true;
+                                    }
+                                    else {
+                                        console.log("Please choose a race that exists in the table.\n")
+                                    }
+                                })
+                        }
+                        else {
+                            console.log("Please enter the NUMBER corresponding to the race you wish to delete.\n")
+                        }
+                    })
+                    .then(() => rl.close())
+            }
+        })
+        .then(async () => {
+            let enteredYesOrNo = false;
+            while (!enteredYesOrNo) {
+                const rl = readline.createInterface({ input, output })
+                await rl.question(`Are you sure you wish to delete ${chosenRace} and ALL associated name fragments? Y/N\n`)
+                    .then((input) => {
+                        if (input.toLowerCase() === "n") {
+                            console.log(`${chosenRace} and associated names will NOT be deleted, goodbye.\n`)
+                            confirmed = false;
+                            enteredYesOrNo = true;
+                        }
+                        if (input.toLowerCase() === "y") {
+                            console.log(`${chosenRace} will be soon deleted from the database.\n`)
+                            confirmed = true;
+                            enteredYesOrNo = true;
+                        }
+                    })
+                    .then(() => rl.close())
+            }
+        })
+        .then(async () => {
+            if (!confirmed) {
+                console.log("Returning to menu.")
+            }
+            if (confirmed) {
+                file.races.pop(chosenRace)
+                file.firstNameFrontFragments.map(frag => {
+                    if (frag.race === chosenRace) {
+                        file.firstNameFrontFragments.pop(frag)
                     }
                 })
-                .then(() => rl.close())
-        }
-    })
-    .then(async() => {
-        let enteredYesOrNo = false;
-        while(!enteredYesOrNo){
-            const rl = readline.createInterface({input, output})
-            await rl.question(`Are you sure you wish to delete ${chosenRace} and ALL associated name fragments? Y/N\n`)
-            .then((input) => {
-                if(input.toLowerCase() === "n"){
-                    console.log(`${chosenRace} and associated names will NOT be deleted, goodbye.\n`)
-                    confirmed = false;
-                    enteredYesOrNo = true;
-                }
-                if(input.toLowerCase() === "y"){
-                    console.log(`${chosenRace} will be soon deleted from the database.\n`)
-                    confirmed = true;
-                    enteredYesOrNo = true;
-                }
-            })
-            .then(() => rl.close())
-        }
-    })
-    .then(async() => {
-        if(!confirmed){
-            console.log("Returning to menu.")
-        }
-        if(confirmed){
-            file.races.pop(chosenRace)
-            file.firstNameFrontFragments.map(frag => {
-                if(frag.race === chosenRace){
-                    file.firstNameFrontFragments.pop(frag)
-                }
-            })
-            file.firstNameMiddleFragments.map(frag => {
-                if(frag.race === chosenRace){
-                    file.firstNameMiddleFragments.pop(frag)
-                }
-            })
+                file.firstNameMiddleFragments.map(frag => {
+                    if (frag.race === chosenRace) {
+                        file.firstNameMiddleFragments.pop(frag)
+                    }
+                })
 
-            await fs.writeFile("./name-fragments.json", JSON.stringify(file, null, 2), (err) => {
-                if(err){
-                    console.log(err)
-                }
-                else{
-                    console.log("File written successfully.")
-                }
-            })
-            .then("Heading back to menu!")
-        }
-    })
+                await fs.writeFile("./name-fragments.json", JSON.stringify(file, null, 2), (err) => {
+                    if (err) {
+                        console.log(err)
+                    }
+                    else {
+                        console.log("File written successfully.")
+                    }
+                })
+                    .then("Heading back to menu!")
+            }
+        })
 }
 
-async function _addNameFragment(){
+async function _addNameFragment() {
     let file;
     let race;
     let selectedNamePiece;
     await readFile("./name-fragments.json", "utf8")
-    .then((contents) => file = JSON.parse(contents))
-    .then(async() => {
-        let enteredValidNumber = false;
-        while(!enteredValidNumber){
-            const rl = readline.createInterface({input, output})
-            console.table(file.races)
-            await rl.question(`Please select a race to add a name fragment for by typing the associated index.\n`)
-            .then((input) => {
-                if(_inputCheck(input) === true){
-                    let selectedRace = file.races[parseInt(input)]
-                    if(selectedRace !== undefined){
-                        race = selectedRace;
-                        console.log(`You selected to add a name fragment for the "${race}" race.\n`)
-                        enteredValidNumber = true;
-                    }
-                    else{
-                        console.log("Please make sure you type a number that corresponds to one of the races above.\n")
-                    }
-                }
-                else{
-                    console.log("Please make sure you've entered a valid integer.\n")
-                }
-            })
-            .then(() => rl.close())
-        }
-    })
-    .then(async() => {
-        const choices = ["Prefix", "Suffix"]
-        let selectedValidOption = false;
-        while(!selectedValidOption){
-            const rl = readline.createInterface({input, output})
-            console.table(choices);
-            await rl.question("Please enter the index of the option you wish to select.\n")
-                .then((input) => {
-                    if(_inputCheck(input)){
-                        selectedNamePiece = choices[parseInt(input)]
-                        if(selectedNamePiece !== undefined){
-                            console.log(`You selected: "${selectedNamePiece}"`)
-                            selectedValidOption = true;
+        .then((contents) => file = JSON.parse(contents))
+        .then(async () => {
+            let enteredValidNumber = false;
+            while (!enteredValidNumber) {
+                const rl = readline.createInterface({ input, output })
+                console.table(file.races)
+                await rl.question(`Please select a race to add a name fragment for by typing the associated index.\n`)
+                    .then((input) => {
+                        if (_inputCheck(input) === true) {
+                            let selectedRace = file.races[parseInt(input)]
+                            if (selectedRace !== undefined) {
+                                race = selectedRace;
+                                console.log(`You selected to add a name fragment for the "${race}" race.\n`)
+                                enteredValidNumber = true;
+                            }
+                            else {
+                                console.log("Please make sure you type a number that corresponds to one of the races above.\n")
+                            }
                         }
-                        else{
-                            console.log("Please select an option that exists in the table.\n")
+                        else {
+                            console.log("Please make sure you've entered a valid integer.\n")
                         }
-                    }
-                    else{
-                        console.log("Please make you you enter an integer.\n")
-                    }
+                    })
+                    .then(() => rl.close())
+            }
+        })
+        .then(async () => {
+            const choices = ["Prefix", "Suffix"]
+            let selectedValidOption = false;
+            while (!selectedValidOption) {
+                const rl = readline.createInterface({ input, output })
+                console.table(choices);
+                await rl.question("Please enter the index of the option you wish to select.\n")
+                    .then((input) => {
+                        if (_inputCheck(input)) {
+                            selectedNamePiece = choices[parseInt(input)]
+                            if (selectedNamePiece !== undefined) {
+                                console.log(`You selected: "${selectedNamePiece}"`)
+                                selectedValidOption = true;
+                            }
+                            else {
+                                console.log("Please select an option that exists in the table.\n")
+                            }
+                        }
+                        else {
+                            console.log("Please make you you enter an integer.\n")
+                        }
+                    })
+                    .then(() => rl.close())
+            }
+
+        })
+        .then(async () => {
+            let fragment;
+            let fragmentObject;
+            let syllablesCount;
+            const rl = readline.createInterface({ input, output });
+            await rl.question(`Please enter the name fragment you want as a ${selectedNamePiece} for ${race}.\n`)
+                .then((input) => fragment = input)
+                .then(async () => {
+                    await rl.question(`How many syllables are in "${fragment}"? Type only an integer.\nBad values will default to 1.\n`)
+                        .then((input) => {
+                            if (_inputCheck(input)) {
+                                syllablesCount = parseInt(input)
+                            }
+                            else {
+                                syllablesCount = 1;
+                            }
+                        })
+                        .then(() => rl.close())
                 })
-            .then(() => rl.close())
-        }
-        
-    })
-    .then(async() => {
-        let fragment;
-        let fragmentObject;
-        let syllablesCount;
-        const rl = readline.createInterface({input, output});
-        await rl.question(`Please enter the name fragment you want as a ${selectedNamePiece} for ${race}.\n`)
-        .then((input) => fragment = input)
-        .then(async() => {
-            await rl.question(`How many syllables are in "${fragment}"? Type only an integer.\nBad values will default to 1.\n`)
-                .then((input) => {
-                    if(_inputCheck(input)){
-                        syllablesCount = parseInt(input)
+                .then(async () => {
+                    fragmentObject = { fragment: fragment, race: race, syllables: syllablesCount };
+                    switch (selectedNamePiece) {
+                        case "Prefix": {
+                            file.firstNameFrontFragments.push(fragmentObject)
+                            break;
+                        }
+                        case "Suffix": {
+                            file.firstNameMiddleFragments.push(fragmentObject)
+                            break;
+                        }
                     }
-                    else{
-                        syllablesCount = 1;
+                    await fs.writeFile("./name-fragments.json", JSON.stringify(file, null, 2), (err) => {
+                        if (err) {
+                            console.log(err)
+                        }
+                        else {
+                            console.log("File written successfully.")
+                        }
+                    })
+                })
+        })
+}
+
+async function _deleteFragment() {
+    let file;
+    let changesPending = false;
+    await readFile("./name-fragments.json", "utf8")
+        .then((contents) => file = JSON.parse(contents))
+        .then(async () => {
+            const rl = readline.createInterface({ input, output })
+            console.table(file.firstNameFrontFragments)
+            await rl.question("Would you like to delete any of the prefixes on this table? Y/N\n")
+                .then(async (input) => {
+                    if (input.toLowerCase() === "y") {
+                        let enteredValidIndex = false;
+                        while (!enteredValidIndex) {
+                            console.log("Type 'cancel' to cancel this action.")
+                            await rl.question("Type the index of the fragment you wish to delete.\n")
+                                .then((index) => {
+                                    let selectedObj;
+                                    if (index.toLowerCase() === "cancel") {
+                                        console.log("Cancelling this action and moving to the next table.\n"); 
+                                        enteredValidIndex = true;
+                                    }
+                                    else {
+                                        if (_inputCheck(index)) {
+                                            selectedObj = file.firstNameFrontFragments[parseInt(index)]
+                                        }
+                                        if (selectedObj !== undefined) {
+                                            file.firstNameFrontFragments.splice(parseInt(index), 1)
+                                            changesPending = true;
+                                            enteredValidIndex = true;
+                                        }
+                                        else {
+                                            console.log("You did not enter a number for a valid object. Try again.\n")
+                                        }
+                                    }
+                                })
+                        }
+                    }
+                    else {
+                        console.log("Moving on to the next table.")
                     }
                 })
                 .then(() => rl.close())
         })
-        .then(async() => {
-            fragmentObject = {fragment: fragment, race: race, syllables: syllablesCount};
-            switch(selectedNamePiece){
-                case "Prefix": {
-                    file.firstNameFrontFragments.push(fragmentObject)
-                    break;
-                }
-                case "Suffix": {
-                    file.firstNameMiddleFragments.push(fragmentObject)
-                    break;
-                }
-            }
-            await fs.writeFile("./name-fragments.json", JSON.stringify(file, null, 2), (err) => {
-                if(err){
-                    console.log(err)
-                }
-                else{
-                    console.log("File written successfully.")
-                }
-            })
-        })
-    })
-}
-
-async function _deleteFragment(){
-    let file;
-    await readFile("./name-fragments.json", "utf8")
-    .then((contents) => file = JSON.parse(contents))
-    .then(() => {
-        console.log(file.races)
-    })
 }
