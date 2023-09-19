@@ -562,7 +562,7 @@ async function _deleteFragment() {
                                 .then((index) => {
                                     let selectedObj;
                                     if (index.toLowerCase() === "cancel") {
-                                        console.log("Cancelling this action and moving to the next table.\n"); 
+                                        console.log("Cancelling this action and moving to the next table.\n");
                                         enteredValidIndex = true;
                                     }
                                     else {
@@ -585,6 +585,52 @@ async function _deleteFragment() {
                         console.log("Moving on to the next table.")
                     }
                 })
+                .then(async() => {
+                    console.table(file.firstNameMiddleFragments)
+                    await rl.question("Would you like to delete any of the suffixes in this table? Y/N\n")
+                        .then(async(input) => {
+                            if(input.toLowerCase() === "y"){
+                                let enteredValidIndex = false;
+                                while(!enteredValidIndex){
+                                    console.table(file.firstNameMiddleFragments)
+                                    console.log("Type 'cancel' to cancel this action.\n")
+                                    await rl.question("Type the index of the fragment you wish to delete.\n")
+                                        .then((answer) => {
+                                            if(answer.toLowerCase() === "cancel"){
+                                                enteredValidIndex = true;
+                                                console.log("Cancelling this action.")
+                                            }
+                                            else{
+                                                if(_inputCheck(parseInt(answer))){
+                                                    file.firstNameMiddleFragments.splice(parseInt(answer), 1)
+                                                    changesPending = true;
+                                                    enteredValidIndex = true;
+                                                }
+                                                else{
+                                                    console.log("You did not enter a number for a valid object. Try again.\n")
+                                                }
+                                            }
+                                        })
+                                }
+                            }
+                            else{
+                                console.log("No suffixes will be deleted.\n")
+                            }
+                        })
+                })
                 .then(() => rl.close())
+                .then(async() => {
+                    if(changesPending === true){
+                        await fs.writeFile("./name-fragments.json", JSON.stringify(file, null, 2), (err) => {
+                            if (err) {
+                                console.log(err)
+                            }
+                            else {
+                                console.log("File written successfully.")
+                            }
+                        })
+                        .then(() => console.log("Changes have been made to file.\n"))
+                    }
+                })
         })
 }
