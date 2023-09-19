@@ -256,22 +256,19 @@ export async function ModifyData() {
     }
     switch (selectedOption) {
         case "Add new race": {
-            console.log("Adding new race\n")
             await _addRace();
             break;
         }
         case "Delete race": {
-            console.log("Deleting race and associated names from database\n")
             await _deleteRace();
             break;
         }
         case "Add name fragments": {
-            console.log("Adding name fragments for selected race\n")
             await _addNameFragment();
             break;
         }
         case "Delete name fragments": {
-            console.log("Deleting name fragments, please hold.\n")
+            await _deleteFragment();
             break;
         }
         case "Go Back": {
@@ -543,5 +540,14 @@ async function _addNameFragment(){
                 }
             })
         })
+    })
+}
+
+async function _deleteFragment(){
+    let file;
+    await readFile("./name-fragments.json", "utf8")
+    .then((contents) => file = JSON.parse(contents))
+    .then(() => {
+        console.log(file.races)
     })
 }
